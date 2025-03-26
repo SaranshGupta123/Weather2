@@ -15,11 +15,19 @@ const Content = () => {
   const [forecast, setForecast] = useState([]);
   const [searchDate, setSearchDate] = useState(null);
   const [error, setError] = useState(null);
-  const [units, setUnits] = useState('metric'); 
+  const [units, setUnits] = useState('metric');
+  const [suggestions, setSuggestions] = useState([]);
 
   const changeSearch = (e) => {
     setSearch(e);
     setError(null);
+    fetchSuggestions(e);
+  };
+
+  const fetchSuggestions = (input) => {
+    const allCities = ['Delhi', 'Kota', 'Kanpur', 'Mumbao', 'Bikaner']; 
+    const filteredCities = allCities.filter(city => city.toLowerCase().includes(input.toLowerCase()));
+    setSuggestions(filteredCities);
   };
 
   const searchWeather = () => {
@@ -55,6 +63,7 @@ const Content = () => {
 
   const historySearch = (data) => {
     setSearch(data);
+    setSuggestions([]); 
     if (data !== '') {
       axios
         .get(`https://api.openweathermap.org/data/2.5/weather?q=${data}&appid=aa13436c3b8dba4deed11d1b67d5d1b0&units=${units}`)
@@ -97,6 +106,15 @@ const Content = () => {
     <>
       <div className="App2">
         <Search searchData={search} eventHandler={changeSearch} onKey={Keypress} />
+        {suggestions.length > 0 && (
+          <ul className="suggestions-list">
+            {suggestions.map((suggestion, index) => (
+              <li key={index} onClick={() => historySearch(suggestion)}>
+                {suggestion}
+              </li>
+            ))}
+          </ul>
+        )}
         <button onClick={Units} className="button Units1">
           {units === 'metric' ? '°F' : '°C'}
         </button>
@@ -104,7 +122,7 @@ const Content = () => {
 
       <div className="App">
         {error && <p className="error-message">{error}</p>}
-        <Result weatherData={weather} historyData={history} historySearch={historySearch} forecastData={forecast} searchDate={searchDate} units={units}/>
+        <Result weatherData={weather} historyData={history} historySearch={historySearch} forecastData={forecast} searchDate={searchDate} units={units} />
       </div>
     </>
   );

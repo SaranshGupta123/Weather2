@@ -275,6 +275,29 @@ body {
   margin-top: 10px;
 }
 
+.suggestions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 80px;
+  background: rgba(123, 121, 240, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute; /* Position it below the input */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.suggestions-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background-color: #9bd2f1;
+}
+
 @media (max-width: 420px) {
   .City {
     margin-top: -15px;
