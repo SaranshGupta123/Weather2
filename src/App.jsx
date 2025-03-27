@@ -17,6 +17,7 @@ const Content = () => {
   const [error, setError] = useState(null);
   const [units, setUnits] = useState('metric');
   const [suggestions, setSuggestions] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false); 
 
   const changeSearch = (e) => {
     setSearch(e);
@@ -25,7 +26,7 @@ const Content = () => {
   };
 
   const fetchSuggestions = (input) => {
-    const allCities = ['Delhi', 'Kota', 'Kanpur', 'Mumbao', 'Bikaner']; 
+    const allCities = ['Delhi', 'Kota', 'Kanpur', 'Mumbai', 'Bikaner']; 
     const filteredCities = allCities.filter(city => city.toLowerCase().includes(input.toLowerCase()));
     setSuggestions(filteredCities);
   };
@@ -102,9 +103,13 @@ const Content = () => {
     }
   };
 
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
     <>
-      <div className="App2">
+      <div className={`App2 ${isDarkMode ? 'dark-mode' : ''}`}>
         <Search searchData={search} eventHandler={changeSearch} onKey={Keypress} />
         {suggestions.length > 0 && (
           <ul className="suggestions-list">
@@ -118,9 +123,12 @@ const Content = () => {
         <button onClick={Units} className="button Units1">
           {units === 'metric' ? '°F' : '°C'}
         </button>
+        <button onClick={toggleDarkMode} className="button toggle-dark-mode">
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </div>
 
-      <div className="App">
+      <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
         {error && <p className="error-message">{error}</p>}
         <Result weatherData={weather} historyData={history} historySearch={historySearch} forecastData={forecast} searchDate={searchDate} units={units} />
       </div>
