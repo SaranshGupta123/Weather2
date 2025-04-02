@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Search from './component/Search';
 import Result from './component/Result';
@@ -18,6 +18,10 @@ const Content = () => {
   const [units, setUnits] = useState('metric');
   const [suggestions, setSuggestions] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false); 
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDarkMode);
+  }, [isDarkMode]);
 
   const changeSearch = (e) => {
     setSearch(e);
